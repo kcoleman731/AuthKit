@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.version                     = "0.1.0"
   s.summary                     = "A simple library of authentication user interface components."
   s.license                     = 'Apache'
-  s.author                      = { 'Kevin Coleman'   => 'kevin@layer.com' }
+  s.author                      = { 'Kevin Coleman'   => 'kcoleman731@gmail.com' }
   s.source                      = { :git => "https://github.com/kcoleman731/KEVAuth.git", :tag => s.version.to_s }
   s.platform                    = :ios, '7.0'
   s.requires_arc                = true
