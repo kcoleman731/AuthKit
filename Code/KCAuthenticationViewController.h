@@ -13,7 +13,7 @@
 
 @class KCAuthenticationViewController;
 
-@protocol LSTAuthenticationViewControllerDelegate <NSObject>
+@protocol KCAuthenticationViewControllerDelegate <NSObject>
 
 - (void)authenticationViewContoller:(KCAuthenticationViewController *)authenticationViewController buttonTappedWithItems:(NSArray *)items;
 
@@ -23,6 +23,6 @@
 
 + (instancetype)controllerWithAuthenticationItems:(NSArray *)items title:(NSString *)title;
 
-@property (nonatomic, weak) id<LSTAuthenticationViewControllerDelegate>authenticationDelegate;
+@property (nonatomic, weak) id<KCAuthenticationViewControllerDelegate>authenticationDelegate;
 
 @end

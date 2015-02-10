@@ -10,10 +10,9 @@
 #import "KCAuthenticationViewController.h"
 #import "KCUtilities.h"
 #import "Canvas.h"
-#import "KCAuthenticationItem.h"
 #import "KCCodeInputView.h"
 
-@interface KCHomeViewController () <LSTAuthenticationViewControllerDelegate>
+@interface KCHomeViewController ()
 
 @property (nonatomic) UIImageView *backgroundImageView;
 @property (nonatomic) UILabel *titleLabel;
@@ -179,7 +178,7 @@ CGFloat const LSTButtonHorizontalPadding = 12;
 - (void)presentAuthenticationViewControllerWithItems:(NSArray *)items title:(NSString *)title
 {
     KCAuthenticationViewController *controller = [KCAuthenticationViewController controllerWithAuthenticationItems:items title:title];
-    controller.authenticationDelegate = self;
+    //controller.authenticationDelegate = self;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

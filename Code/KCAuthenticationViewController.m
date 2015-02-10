@@ -12,11 +12,9 @@
 
 @interface KCAuthenticationViewController () <LSTAuthenticationTableViewFooterDelegate>
 
-@property (nonatomic) NSArray *items;
+@property (nonatomic) NSArray *authenticationItems;
 @property (nonatomic) NSString *authenticationTitle;
-@property (nonatomic) UITextField *emailTextField;
-@property (nonatomic) UITextField *passwordTextField;
-@property (nonatomic) UITextField *confirmationTextField;
+@property (nonatomic) NSMutableArray *textFeilds;
 
 @end
 
@@ -31,10 +29,12 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        _items = items;
+        _authenticationItems = items;
         _authenticationTitle = title;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
+        
+        _textFeilds = [NSMutableArray new];
     }
     return self;
 }
@@ -74,7 +74,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.items.count;
+    return self.authenticationItems.count;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -101,9 +101,10 @@
 
 - (void)configureCell:(KCInputTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    KCAuthenticationItem *item = [self.items objectAtIndex:indexPath.row];
+    KCAuthenticationItem *item = [self.authenticationItems objectAtIndex:indexPath.row];
     cell.textField.placeholder = [item placeholder];
     cell.accessoryView = [self imageViewWithImage:[item iconImage]];
+    [self.textFeilds addObject:cell.textField];
 }
 
 - (UIImageView *)imageViewWithImage:(UIImage *)image
@@ -123,7 +124,12 @@
 - (void)authenticationTableViewFooter:(KCAuthenticationTableViewFooter *)authenticationTableViewFooter
            didTapAuthenticatoonButton:(UIButton *)authenticationbutton
 {
-    [self.authenticationDelegate authenticationViewContoller:self buttonTappedWithItems:self.items];
+    [self.authenticationItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UITextField *textField = [self.textFeilds objectAtIndex:idx];
+        KCAuthenticationItem *item = obj;
+        item.credential = textField.text;
+    }];
+    [self.authenticationDelegate authenticationViewContoller:self buttonTappedWithItems:self.authenticationItems];
 }
 
 
