@@ -13,7 +13,7 @@
 #import "KCAuthenticationItem.h"
 #import "KCCodeInputView.h"
 
-@interface KCHomeViewController () <LSTAuthenticationViewControllerDelegate>
+@interface KCHomeViewController () <KCAuthenticationViewControllerDelegate>
 
 @property (nonatomic) UIImageView *backgroundImageView;
 @property (nonatomic) UILabel *titleLabel;

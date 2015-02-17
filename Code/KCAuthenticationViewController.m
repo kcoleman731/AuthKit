@@ -9,6 +9,7 @@
 #import "KCAuthenticationViewController.h"
 #import "KCInputTableViewCell.h"
 #import "KCUtilities.h"
+#import "KCAuthenticationItem.h"
 
 @interface KCAuthenticationViewController () <LSTAuthenticationTableViewFooterDelegate>
 
@@ -104,6 +105,7 @@
     KCAuthenticationItem *item = [self.items objectAtIndex:indexPath.row];
     cell.textField.placeholder = [item placeholder];
     cell.accessoryView = [self imageViewWithImage:[item iconImage]];
+    item.cell = cell;
 }
 
 - (UIImageView *)imageViewWithImage:(UIImage *)image
@@ -123,6 +125,10 @@
 - (void)authenticationTableViewFooter:(KCAuthenticationTableViewFooter *)authenticationTableViewFooter
            didTapAuthenticatoonButton:(UIButton *)authenticationbutton
 {
+    for (KCAuthenticationItem *item in self.items) {
+        item.credential = item.cell.textField.text;
+        item.cell = nil;
+    }
     [self.authenticationDelegate authenticationViewContoller:self buttonTappedWithItems:self.items];
 }
 
