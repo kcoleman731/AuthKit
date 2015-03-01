@@ -12,13 +12,14 @@
 #import "Canvas.h"
 #import "KCCodeInputView.h"
 
-@interface KCHomeViewController ()
+@interface KCHomeViewController () <KCAuthenticationViewControllerDelegate>
 
 @property (nonatomic) UIImageView *backgroundImageView;
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *secondaryTitleLabel;
 @property (nonatomic) UIButton *loginButton;
 @property (nonatomic) UIButton *registerButton;
+@property (nonatomic) KCAuthenticationAction action;
 
 @end
 
@@ -61,8 +62,8 @@ CGFloat const LSTButtonHorizontalPadding = 12;
     [self.view addSubview:self.backgroundImageView];
     
     self.titleLabel = [UILabel new];
+    self.titleLabel.text = self.appTitle;
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.titleLabel.text = @"LIST";
     self.titleLabel.font = self.titleLabelFont;
     self.titleLabel.textColor = self.titleLabelColor;
     [self.view addSubview:self.titleLabel];
@@ -74,10 +75,10 @@ CGFloat const LSTButtonHorizontalPadding = 12;
     }];
     
     self.secondaryTitleLabel = [UILabel new];
+    self.secondaryTitleLabel.text = self.appDescrition;
     self.secondaryTitleLabel.numberOfLines = 2;
     self.secondaryTitleLabel.textAlignment = NSTextAlignmentCenter;
     self.secondaryTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.secondaryTitleLabel.text = @"Helping you get things \ndone, faster";
     self.secondaryTitleLabel.font = self.secondaryTitleLabelFont;
     self.secondaryTitleLabel.textColor = self.secondaryTitleLabelColor;
     [self.view addSubview:self.secondaryTitleLabel];
@@ -126,18 +127,18 @@ CGFloat const LSTButtonHorizontalPadding = 12;
         [canvas constrainEdge:CanvasEdgeRight constant:-LSTButtonHorizontalPadding];
         [canvas constrainDimension:CanvasDimensionHeight constant:LSTButtonHeight];
     }];
-    
-    KCCodeInputView *view = [KCCodeInputView new];
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    view.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:view];
-    
-    [canvas constrainView:view toCanvas:^(Canvas *canvas) {
-        [canvas constrainEdge:CanvasEdgeLeft constant:0];
-        [canvas constrainEdge:CanvasEdgeRight constant:0];
-        [canvas constrainEdge:CanvasEdgeTop constant:0];
-        [canvas constrainDimension:CanvasDimensionHeight constant:200];
-    }];
+}
+
+- (void)setAppTitle:(NSString *)appTitle
+{
+    _appTitle = appTitle;
+    self.titleLabel.text = appTitle;
+}
+
+- (void)setAppDescrition:(NSString *)appDescrition
+{
+    _appDescrition = appDescrition;
+    self.secondaryTitleLabel.text = appDescrition;
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
@@ -147,51 +148,30 @@ CGFloat const LSTButtonHorizontalPadding = 12;
 
 - (void)handleLoginButtonTap:(UIButton *)sender
 {
-    KCAuthenticationItem *emailItem = [KCAuthenticationItem new];
-    emailItem.placeholder = @"Email";
-    emailItem.iconImage = nil;
-    
-    KCAuthenticationItem *passwordItem = [KCAuthenticationItem new];
-    passwordItem.placeholder = @"Password";
-    passwordItem.iconImage = nil;
-    
-    [self presentAuthenticationViewControllerWithItems:@[emailItem, passwordItem] title:@"Login"];
+    self.action = KCAuthenticationActionLogin;
+    NSArray *items = [self.delegate homeViewController:self itemsForAuthenticationType:KCAuthenticationActionLogin];
+    [self presentAuthenticationViewControllerWithItems:items title:@"Login"];
 }
 
 - (void)handleRegisterButtonTap:(UIButton *)sender
 {
-    KCAuthenticationItem *emailItem = [KCAuthenticationItem new];
-    emailItem.placeholder = @"Email";
-    emailItem.iconImage = nil;
-    
-    KCAuthenticationItem *passwordItem = [KCAuthenticationItem new];
-    passwordItem.placeholder = @"Password";
-    passwordItem.iconImage = nil;
-    
-    KCAuthenticationItem *confirmationItem = [KCAuthenticationItem new];
-    confirmationItem.placeholder = @"Password";
-    confirmationItem.iconImage = nil;
-    
-    [self presentAuthenticationViewControllerWithItems:@[emailItem, passwordItem, confirmationItem] title:@"Register"];
+    self.action = KCAuthenticationActionRegister;
+    NSArray *items = [self.delegate homeViewController:self itemsForAuthenticationType:KCAuthenticationActionRegister];
+    [self presentAuthenticationViewControllerWithItems:items title:@"Register"];
 }
 
 - (void)presentAuthenticationViewControllerWithItems:(NSArray *)items title:(NSString *)title
 {
     KCAuthenticationViewController *controller = [KCAuthenticationViewController controllerWithAuthenticationItems:items title:title];
-    //controller.authenticationDelegate = self;
+    controller.authenticationDelegate = self;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Authentication View Controller Delegate Methods
 
-- (void)authenticationViewContoller:(KCAuthenticationViewController *)authenticationViewController loginButtonTappedWithCredentials:(NSDictionary *)credentials
+- (void)authenticationViewContoller:(KCAuthenticationViewController *)authenticationViewController buttonTappedWithItems:(NSArray *)items
 {
-
-}
-
-- (void)authenticationViewContoller:(KCAuthenticationViewController *)authenticationViewController registrationButtonTappedWithCredentials:(NSDictionary *)credentials
-{
-
+    [self.delegate homeViewController:self didAttemptAction:self.action withItems:items];
 }
 
 - (void)configureUserInterfaceAttributes

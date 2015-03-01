@@ -8,7 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, KCAuthenticationAction) {
+    KCAuthenticationActionLogin,
+    KCAuthenticationActionRegister,
+};
+
+@class KCHomeViewController;
+
+@protocol KCHomeViewControllerDelegate <NSObject>
+
+- (void)homeViewController:(KCHomeViewController *)homeViewController didAttemptAction:(KCAuthenticationAction)action withItems:(NSArray *)items;
+
+- (NSArray *)homeViewController:(KCHomeViewController *)homeViewController itemsForAuthenticationType:(KCAuthenticationAction)authenticationAction;
+
+@end
+
 @interface KCHomeViewController : UIViewController
+
+@property (nonatomic) id<KCHomeViewControllerDelegate> delegate;
 
 @property (nonatomic) UIImage *backgroundImage;
 
@@ -24,5 +41,8 @@
 @property (nonatomic) UIColor *registerButtonColor UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic) CGFloat buttonHeight UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic) NSString *appTitle;
+@property (nonatomic) NSString *appDescrition;
 
 @end
