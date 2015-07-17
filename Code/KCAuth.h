@@ -17,6 +17,3 @@
 
 // Model
 #import "KCAuthenticationItem.h"
-
-// Utilities
-#import "KCUtilities.h"
