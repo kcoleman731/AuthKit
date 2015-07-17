@@ -56,7 +56,7 @@ UIColor *LALightBlueColor()
 
 UIColor *LABlueColor()
 {
-    return [UIColor colorWithRed:53/255.0f green:123/255.0f blue:198.0f/255.0f alpha:1.0];
+    return [UIColor colorWithRed:33/255.0f green:170/255.0f blue:225.0f/255.0f alpha:1.0];
 }
 
 void LSTAlertView(NSError *error)

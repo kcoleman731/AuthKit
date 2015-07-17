@@ -29,6 +29,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
+        self.title = title;
         _authenticationItems = items;
         _authenticationTitle = title;
         self.tableView.delegate = self;
@@ -104,7 +105,11 @@
     KCAuthenticationItem *item = [self.authenticationItems objectAtIndex:indexPath.row];
     cell.textField.placeholder = [item placeholder];
     cell.accessoryView = [self imageViewWithImage:[item iconImage]];
+    cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self.textFeilds addObject:cell.textField];
+    if ([item.placeholder isEqualToString:@"password"] || [item.placeholder isEqualToString:@"confirmation"]) {
+        cell.textField.secureTextEntry = YES;
+    }
 }
 
 - (UIImageView *)imageViewWithImage:(UIImage *)image

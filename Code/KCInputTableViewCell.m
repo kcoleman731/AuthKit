@@ -47,6 +47,7 @@
 - (void)setTextFieldAttributes:(NSDictionary *)textFieldAttributes
 {
     _textFieldAttributes = textFieldAttributes;
+    self.textField.font = textFieldAttributes[NSFontAttributeName];
 }
 
 - (void)setSelected:(BOOL)selected

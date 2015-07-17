@@ -31,13 +31,13 @@ CGFloat const LSTButtonHorizontalPadding = 12;
 {
     self = [super init];
     if (self) {
-        _titleLabelFont = LAMediumFont(64);
+        _titleLabelFont = LALightFont(64);
         _titleLabelColor = [UIColor whiteColor];
         
         _secondaryTitleLabelFont = LALightObliqueFont(18);
         _secondaryTitleLabelColor = [UIColor whiteColor];
         
-        _buttonLabelFont = LAMediumFont(14);
+        _buttonLabelFont = LAMediumFont(16);
         _loginButtonTextColor = [UIColor whiteColor];
         _loginButtonColor = LABlueColor();
         _registerButtonTextColor = [UIColor whiteColor];
@@ -69,7 +69,7 @@ CGFloat const LSTButtonHorizontalPadding = 12;
     Canvas *canvas = [Canvas canvasWithSuperView:self.view];
     [canvas constrainView:self.titleLabel toCanvas:^(Canvas *canvas) {
         [canvas constrainCenter:CanvasCenterX constant:0.0];
-        [canvas constrainEdge:CanvasEdgeTop constant:100];
+        [canvas constrainEdge:CanvasEdgeTop constant:200];
     }];
     
     self.secondaryTitleLabel = [UILabel new];
@@ -83,9 +83,11 @@ CGFloat const LSTButtonHorizontalPadding = 12;
     
     [canvas constrainView:self.secondaryTitleLabel toCanvas:^(Canvas *canvas) {
         [canvas constrainCenter:CanvasCenterX constant:0.0f];
+        [canvas constrainEdge:CanvasEdgeRight constant:-20];
+        [canvas constrainEdge:CanvasEdgeLeft constant:20];
         [canvas subcanvasWithView:self.titleLabel canvas:^(Canvas *subcanvas) {
             [subcanvas constrainView:self.secondaryTitleLabel toCanvas:^(Canvas *canvas) {
-                [canvas constrainEdge:CanvasEdgeTop constant:100.0f];
+                [canvas constrainEdge:CanvasEdgeTop constant:120.0f];
             }];
         }];
     }];
@@ -175,22 +177,22 @@ CGFloat const LSTButtonHorizontalPadding = 12;
 - (void)configureUserInterfaceAttributes
 {
     NSDictionary *testAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],
-                                     NSFontAttributeName : LALightFont(15)};
+                                     NSFontAttributeName : LALightFont(18)};
     [[KCInputTableViewCell appearance] setTextFieldAttributes:testAttributes];
     
     NSDictionary *placeholderAttributes = @{NSForegroundColorAttributeName : [UIColor grayColor],
-                                            NSFontAttributeName : LALightFont(15)};
+                                            NSFontAttributeName : LALightFont(18)};
     [[KCInputTableViewCell appearance] setPlaceHolderAttributes:placeholderAttributes];
     
     [[UIButton appearance] setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: LAMediumFont(16),
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: LAMediumFont(20),
                                                            NSForegroundColorAttributeName: LABlueColor()}];
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
                                        forBarMetrics:UIBarMetricsDefault];
     
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:@{NSFontAttributeName : LALightFont(16),
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:@{NSFontAttributeName : LALightFont(20),
                                                                                                        NSForegroundColorAttributeName : LABlueColor()}
                                                                                             forState:UIControlStateNormal];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:[UIColor whiteColor]];
