@@ -27,6 +27,8 @@ typedef NS_ENUM(NSUInteger, KCAuthenticationAction) {
 
 @property (nonatomic) id<KCHomeViewControllerDelegate> delegate;
 
+@property (nonatomic) UIButton *loginButton;
+@property (nonatomic) UIButton *registerButton;
 @property (nonatomic) UIImage *backgroundImage;
 
 @property (nonatomic) UIFont *titleLabelFont UI_APPEARANCE_SELECTOR;

@@ -17,8 +17,6 @@
 @property (nonatomic) UIImageView *backgroundImageView;
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *secondaryTitleLabel;
-@property (nonatomic) UIButton *loginButton;
-@property (nonatomic) UIButton *registerButton;
 @property (nonatomic) KCAuthenticationAction action;
 
 @end
