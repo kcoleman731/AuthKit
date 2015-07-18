@@ -107,8 +107,10 @@
     cell.accessoryView = [self imageViewWithImage:[item iconImage]];
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self.textFeilds addObject:cell.textField];
-    if ([item.placeholder isEqualToString:@"password"] || [item.placeholder isEqualToString:@"confirmation"]) {
+    if ([item.placeholder isEqualToString:@"Password"] || [item.placeholder isEqualToString:@"Confirmation"]) {
         cell.textField.secureTextEntry = YES;
+    } else {
+        cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
     }
 }
 
